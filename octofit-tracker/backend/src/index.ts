@@ -1,6 +1,6 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import usersRouter from './routes/users';
+import { connectToDatabase } from './database';
 import teamsRouter from './routes/teams';
 import activitiesRouter from './routes/activities';
 import leaderboardRouter from './routes/leaderboard';
@@ -41,7 +41,7 @@ app.use('/api/workouts', workoutsRouter);
 
 const start = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/octofit_db');
+    await connectToDatabase();
     console.log('Connected to MongoDB');
   } catch (error) {
     console.error('MongoDB connection failed:', error);

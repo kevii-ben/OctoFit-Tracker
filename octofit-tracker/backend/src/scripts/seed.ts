@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
 import { User } from '../models/user';
+import { connectToDatabase } from '../database';
 import { Team } from '../models/team';
 import { Activity } from '../models/activity';
 import { Leaderboard } from '../models/leaderboard';
@@ -7,7 +7,7 @@ import { Workout } from '../models/workout';
 
 // Seed the octofit_db database with test data.
 export const seedDatabase = async () => {
-  await mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/octofit_db');
+  await connectToDatabase();
 
   await Promise.all([
     User.deleteMany({}),
@@ -103,7 +103,7 @@ export const seedDatabase = async () => {
   console.log('Seed the octofit_db database with test data');
   console.log(`Seeded ${users.length} users, ${teams.length} teams, activities, leaderboard entries, and workouts.`);
 
-  await mongoose.disconnect();
+  await (await import('mongoose')).default.disconnect();
 };
 
 seedDatabase().catch((error) => {
